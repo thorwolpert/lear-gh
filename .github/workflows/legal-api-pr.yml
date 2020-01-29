@@ -48,3 +48,7 @@ jobs:
         working-directory: ./legal-api
         run: |
           pylint --rcfile=setup.cfg --load-plugins=pylint_flask src
+      - name: Lint with flake8
+        working-directory: ./legal-api
+        run: |
+          flake8 src tests
