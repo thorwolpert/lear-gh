@@ -44,7 +44,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements/dev.txt
-      - name: Install dependencies
+      - name: Lint with pylint
         working-directory: ./legal-api
         run: |
           pylint --rcfile=setup.cfg --load-plugins=pylint_flask src
@@ -52,3 +52,8 @@ jobs:
         working-directory: ./legal-api
         run: |
           flake8 src tests
+      - name: Test with pytest
+        working-directory: ./legal-api
+        run: |
+          pip install .
+          pytest
