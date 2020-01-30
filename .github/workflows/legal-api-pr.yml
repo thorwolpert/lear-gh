@@ -34,7 +34,7 @@ jobs:
       postgres:
         image: postgres:11
         env:
-          POSTGRES_USER: ${{ jobs.pr-checks.env.DATABASE_TEST_USERNAME }}
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
         ports:
@@ -45,7 +45,7 @@ jobs:
       nats:
         image: nats-streaming
         env:
-          NATS_CLUSTER_ID: ${{ jobs.pr-checks.env.NATS_CLUSTER_ID }}
+          NATS_CLUSTER_ID: test-cluster
         ports:
           - 4222:4222
 
