@@ -185,4 +185,4 @@ def session(app, db):  # pylint: disable=redefined-outer-name, invalid-name
 def stan_server(docker_services):
     """Create the nats / stan services that the integration tests will use."""
 #    docker_services.start('nats')
-#    time.sleep(2)
+    time.sleep(0.5)
