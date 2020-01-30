@@ -6,8 +6,6 @@ on:
     paths:
       - "legal-api/**"
 
-
-
 jobs:
   pr-checks:
     env:
@@ -25,7 +23,7 @@ jobs:
       NATS_QUEUE: entity-filer-worker
       JWT_OIDC_JWKS_CACHE_TIMEOUT: 300
       GO_LIVE_DATE: 2019-08-12
-      RUN_NATS_TESTS: True
+
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,13 +40,6 @@ jobs:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-      nats:
-        image: nats-streaming
-        env:
-          NATS_CLUSTER_ID: test-cluster
-        ports:
-          - 4222:4222
 
     steps:
       - uses: actions/checkout@v2
