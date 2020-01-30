@@ -6,24 +6,25 @@ on:
     paths:
       - "legal-api/**"
 
-env:
-  IMAGE_NAME: business-create
-  DATABASE_TEST_USERNAME: postgres
-  DATABASE_TEST_PASSWORD: postgres
-  DATABASE_TEST_NAME: postgres
-  DATABASE_TEST_HOST: localhost
-  DATABASE_HOST: localhost
-  DATABASE_PASSWORD: postgres
-  NATS_SERVERS: "nats://nats:4222"
-  NATS_CLIENT_NAME: entity.legal_api
-  NATS_CLUSTER_ID: test-cluster
-  NATS_FILER_SUBJECT: entity.filing.filer
-  NATS_QUEUE: entity-filer-worker
-  JWT_OIDC_JWKS_CACHE_TIMEOUT: 300
-  GO_LIVE_DATE: 2019-08-12
+
 
 jobs:
-  build:
+  pr-checks:
+    env:
+      IMAGE_NAME: business-create
+      DATABASE_TEST_USERNAME: postgres
+      DATABASE_TEST_PASSWORD: postgres
+      DATABASE_TEST_NAME: postgres
+      DATABASE_TEST_HOST: localhost
+      DATABASE_HOST: localhost
+      DATABASE_PASSWORD: postgres
+      NATS_SERVERS: "nats://nats:4222"
+      NATS_CLIENT_NAME: entity.legal_api
+      NATS_CLUSTER_ID: test-cluster
+      NATS_FILER_SUBJECT: entity.filing.filer
+      NATS_QUEUE: entity-filer-worker
+      JWT_OIDC_JWKS_CACHE_TIMEOUT: 300
+      GO_LIVE_DATE: 2019-08-12
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -33,7 +34,7 @@ jobs:
       postgres:
         image: postgres:11
         env:
-          POSTGRES_USER: ${{ env.DATABASE_TEST_USERNAME }}
+          POSTGRES_USER: ${{ jobs.pr-checks.env.DATABASE_TEST_USERNAME }}
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
         ports:
@@ -44,7 +45,7 @@ jobs:
       nats:
         image: nats-streaming
         env:
-          NATS_CLUSTER_ID: ${{ env.NATS_CLUSTER_ID }}
+          NATS_CLUSTER_ID: ${{ jobs.pr-checks.env.NATS_CLUSTER_ID }}
         ports:
           - 4222:4222
 
