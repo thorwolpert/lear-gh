@@ -98,15 +98,15 @@ def test_flags_bool_no_key_prod():
     assert not on
 
 
-def test_flags_bool(app):
-    """Assert that a boolean (True) is returned, when using the local Flag.json file."""
-    from legal_api import flags
-    app.env = 'development'
-
-    with app.app_context():
-        flag_on = flags.is_on('bool-flag')
-
-    assert flag_on
+# def test_flags_bool(app):
+#    """Assert that a boolean (True) is returned, when using the local Flag.json file."""
+#    from legal_api import flags
+#    app.env = 'development'
+#
+#    with app.app_context():
+#        flag_on = flags.is_on('bool-flag')
+#
+#    assert flag_on
 
 
 def test_flags_bool_missing_flag(app):
