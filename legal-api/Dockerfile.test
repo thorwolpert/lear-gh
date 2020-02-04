@@ -1,0 +1,19 @@
+# install the test and QA packages
+FROM base as qa_base
+WORKDIR /app
+COPY tests ./tests
+RUN pip install -r requirements/dev.txt
+
+# install the test and QA packages
+# verify linting
+FROM qa_base as lint
+RUN flake8 src tests
+RUN pylint --rcfile=setup.cfg --load-plugins=pylint_flask src/legal_api
+
+# check unit-test
+FROM qa_base as qa
+RUN apt-get update && apt-get install -y postgresql-client
+WORKDIR /app
+RUN pip install .
+# ENTRYPOINT ["/app/wait-for-postgres.sh"]
+CMD ["/app/wait-for-postgres.sh", "postgres", "/app/run_tests.sh"]
