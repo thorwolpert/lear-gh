@@ -1,0 +1,7 @@
+# Production ready run image
+FROM base as prod
+WORKDIR /app
+RUN pip install .
+EXPOSE 8000
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["gunicorn", "wsgi:application","-c","python:gunicorn_config", "-b", "0.0.0.0:8000"]
