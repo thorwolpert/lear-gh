@@ -50,7 +50,7 @@ jobs:
       - name: Verify
         working-directory: ./legal-api
         run: |
-          docker build . --file Dockerfile.base --tag verify
+          docker build . --file Dockerfile.test --tag verify
           docker run \
              --env DATABASE_HOST \
              --env DATABASE_USERNAME \
