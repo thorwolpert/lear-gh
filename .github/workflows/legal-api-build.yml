@@ -50,7 +50,25 @@ jobs:
       - name: Verify
         working-directory: ./legal-api
         run: |
-          docker build . --file Dockerfile.base
+          docker build . --file Dockerfile.base --tag verify
+          docker run -it --rm \
+             --env DATABASE_HOST \
+             --env DATABASE_USERNAME \
+             --env DATABASE_PASSWORD \
+             --env DATABASE_NAME \
+             --env DATABASE_TEST_HOST \
+             --env DATABASE_TEST_USERNAME \
+             --env DATABASE_TEST_PASSWORD \
+             --env DATABASE_TEST_NAME \
+             --env NATS_SERVERS \
+             --env NATS_CLIENT_NAME \
+             --env NATS_FILER_SUBJECT \
+             --env NATS_QUEUE \
+             --env JWT_OIDC_JWKS_CACHE_TIMEOUT \
+             --env GO_LIVE_DATE \
+             -p 8000:8000 \
+             qa:latest pytest
+          
 
       - name: Build prod and store to registry
         working-directory: ./legal-api
