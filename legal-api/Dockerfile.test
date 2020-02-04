@@ -12,7 +12,7 @@ RUN pylint --rcfile=setup.cfg --load-plugins=pylint_flask src/legal_api
 
 # check unit-test
 FROM qa_base as qa
+RUN apt-get update && apt-get install -y postgresql-client
 WORKDIR /app
 RUN pip install .
-ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["pytest"]
+CMD ["/app/wait-for-postgres.sh", "postgres", "/app/run_tests.sh"]

@@ -1,0 +1,37 @@
+# docker-compose.yml
+version: "3"
+
+services:
+  api:
+    container_name: qa
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      - DATABASE_TEST_USERNAME
+      - DATABASE_TEST_PASSWORD
+      - DATABASE_TEST_NAME
+      - DATABASE_TEST_HOST
+      - NATS_SERVERS
+      - NATS_CLIENT_NAME
+      - NATS_CLUSTER_ID
+      - NATS_FILER_SUBJECT
+      - NATS_QUEUE
+      - JWT_OIDC_JWKS_CACHE_TIMEOUT
+      - GO_LIVE_DATE
+
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - 5432:5432
