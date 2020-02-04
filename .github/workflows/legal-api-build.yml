@@ -67,7 +67,7 @@ jobs:
              --env JWT_OIDC_JWKS_CACHE_TIMEOUT \
              --env GO_LIVE_DATE \
              -p 8000:8000 \
-             qa:latest pytest
+             verify:latest pytest
           
 
       - name: Build prod and store to registry
