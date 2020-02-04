@@ -22,3 +22,9 @@ threads = int(os.environ.get('GUNICORN_THREADS', '1'))  # pylint: disable=invali
 
 forwarded_allow_ips = '*'  # pylint: disable=invalid-name
 secure_scheme_headers = {'X-Forwarded-Proto': 'https'}  # pylint: disable=invalid-name
+
+errorlog = '-'
+loglevel = 'info'
+accesslog = '-'
+access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
+tmp_upload_dir = None

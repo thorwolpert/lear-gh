@@ -1,0 +1,58 @@
+name: legal-api Build and Verify
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "legal-api/**"
+
+jobs:
+  build:
+    env:
+      IMAGE_NAME: legal_api
+      DATABASE_TEST_USERNAME: postgres
+      DATABASE_TEST_PASSWORD: postgres
+      DATABASE_TEST_NAME: postgres
+      DATABASE_TEST_HOST: localhost
+      DATABASE_HOST: localhost
+      DATABASE_PASSWORD: postgres
+      NATS_SERVERS: "nats://nats:4222"
+      NATS_CLIENT_NAME: entity.legal_api
+      NATS_CLUSTER_ID: test-cluster
+      NATS_FILER_SUBJECT: entity.filing.filer
+      NATS_QUEUE: entity-filer-worker
+      JWT_OIDC_JWKS_CACHE_TIMEOUT: 300
+      GO_LIVE_DATE: 2019-08-12
+
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create base image
+        working-directory: ./legal-api
+        run: |
+          docker build . --file Dockerfile.base --tag base
+
+      - name: Verify
+        working-directory: ./legal-api
+        run: |
+          docker build . --file Dockerfile.base
+
+      - name: Build prod and store to registry
+        working-directory: ./legal-api
+        run: |
+          docker build . --file Dockerfile.base --tag image
