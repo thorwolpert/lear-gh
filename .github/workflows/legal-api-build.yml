@@ -14,8 +14,8 @@ jobs:
       DATABASE_TEST_USERNAME: postgres
       DATABASE_TEST_PASSWORD: postgres
       DATABASE_TEST_NAME: postgres
-      DATABASE_TEST_HOST: localhost
-      DATABASE_HOST: localhost
+      DATABASE_TEST_HOST: postgres
+      DATABASE_HOST: postgres
       DATABASE_PASSWORD: postgres
       NATS_SERVERS: "nats://nats:4222"
       NATS_CLIENT_NAME: entity.legal_api
@@ -26,18 +26,6 @@ jobs:
       GO_LIVE_DATE: 2019-08-12
 
     runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - uses: actions/checkout@v2
@@ -50,28 +38,4 @@ jobs:
       - name: Verify
         working-directory: ./legal-api
         run: |
-          docker build . --file Dockerfile.test --tag verify
-          docker run \
-             --env DATABASE_HOST \
-             --env DATABASE_USERNAME \
-             --env DATABASE_PASSWORD \
-             --env DATABASE_NAME \
-             --env DATABASE_TEST_HOST \
-             --env DATABASE_TEST_USERNAME \
-             --env DATABASE_TEST_PASSWORD \
-             --env DATABASE_TEST_NAME \
-             --env NATS_SERVERS \
-             --env NATS_CLIENT_NAME \
-             --env NATS_FILER_SUBJECT \
-             --env NATS_QUEUE \
-             --env JWT_OIDC_JWKS_CACHE_TIMEOUT \
-             --env GO_LIVE_DATE \
-             verify:latest pytest
-        env:
-          DATABASE_TEST_PORT: ${{ job.services.postgres.ports[5432] }}
-          
-
-      - name: Build prod and store to registry
-        working-directory: ./legal-api
-        run: |
-          docker build . --file Dockerfile.base --tag image
+          docker-compose -f docker-compose-qa.yml up --exit-code-from api --abort-on-container-exit
