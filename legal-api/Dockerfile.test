@@ -14,6 +14,5 @@ RUN pylint --rcfile=setup.cfg --load-plugins=pylint_flask src/legal_api
 FROM qa_base as qa
 WORKDIR /app
 RUN pip install .
-# RUN pytest
 ENTRYPOINT ["/app/entrypoint.sh"]
-CMD["pytest"]
+CMD ["pytest"]
