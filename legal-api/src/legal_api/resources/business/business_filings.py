@@ -473,7 +473,7 @@ class InternalFilings(Resource):
         filings = []
         for filing in pending_filings:
             filing_json = filing.filing_json
-            if filing_json and filing.filing_type is not 'lear_epoch':
+            if filing_json and filing.filing_type != 'lear_epoch':
                 filing_json['filingId'] = filing.id
                 filings.append(filing_json)
         return jsonify(filings), HTTPStatus.OK
