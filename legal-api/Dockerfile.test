@@ -1,5 +1,5 @@
 # install the test and QA packages
-FROM prod as qa_base
+FROM base as qa_base
 WORKDIR /app
 COPY tests ./tests
 RUN pip install -r requirements/dev.txt
