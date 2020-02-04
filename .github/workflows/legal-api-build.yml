@@ -51,7 +51,7 @@ jobs:
         working-directory: ./legal-api
         run: |
           docker build . --file Dockerfile.base --tag verify
-          docker run -it --rm \
+          docker run -it -d --rm \
              --env DATABASE_HOST \
              --env DATABASE_USERNAME \
              --env DATABASE_PASSWORD \
