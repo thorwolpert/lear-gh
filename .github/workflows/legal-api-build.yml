@@ -17,6 +17,7 @@ jobs:
       DATABASE_TEST_HOST: postgres
       DATABASE_HOST: postgres
       DATABASE_PASSWORD: postgres
+      POSTGRES_PASSWORD: postgres
       NATS_SERVERS: "nats://nats:4222"
       NATS_CLIENT_NAME: entity.legal_api
       NATS_CLUSTER_ID: test-cluster
