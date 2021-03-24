@@ -25,7 +25,7 @@ pyrsistent==0.15.6
 python-dotenv==0.10.3
 python-jose==3.1.0
 pytz==2019.3
-rsa==4.0
+rsa==4.1
 sentry-sdk==0.13.5
 six==1.13.0
 urllib3==1.25.7
