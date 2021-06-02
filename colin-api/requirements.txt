@@ -28,6 +28,6 @@ pytz==2019.3
 rsa==4.0
 sentry-sdk==0.13.5
 six==1.13.0
-urllib3==1.25.7
+urllib3==1.26.5
 zipp==0.6.0
 git+https://github.com/bcgov/lear.git#egg=registry_schemas&subdirectory=schemas
