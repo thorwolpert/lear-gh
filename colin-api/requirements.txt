@@ -8,7 +8,7 @@ Werkzeug==0.16.0
 aniso8601==8.0.0
 attrs==19.1.0
 blinker==1.4
-certifi==2019.11.28
+certifi==2022.12.7
 cx-Oracle==7.3.0
 ecdsa==0.14.1
 flask-jwt-oidc==0.1.5
